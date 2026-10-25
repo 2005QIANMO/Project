@@ -1,0 +1,29 @@
+### ============================================================
+### 小说阅读器后端接口测试（IDEA 内置 HTTP Client）
+### 用法：先启动 LibraryDemoApplication，再点击每个请求左侧的绿色三角 ▶
+### 注意：application.yml 中端口为 8081
+### ============================================================
+
+### 1. 小说列表（全部，共 14 条）
+GET http://localhost:8081/api/novel/list
+
+### 2. 小说列表（按分类筛选：原著 / 人祖传 / 同人续写 / 语录摘抄）
+GET http://localhost:8081/api/novel/list?category=语录摘抄
+
+### 3. 读取某本小说正文（id=1 是《控运》，返回 txt 全文）
+GET http://localhost:8081/api/novel/read/1
+
+### 4. 保存阅读进度（@RequestBody：JSON 体，必须带 Content-Type）
+POST http://localhost:8081/api/novel/progress
+Content-Type: application/json
+
+{
+  "id": 1,
+  "readPos": 100000
+}
+
+### 5. 新增一本小说（@RequestParam：参数拼在 URL 上，不是 JSON）
+POST http://localhost:8081/api/novel/add?novelName=测试书&category=测试&fileName=test.txt&wordCount=1000
+
+### 6. 验证第 4 步：再查 id=1 的 readPos 是否变成 100000
+GET http://localhost:8081/api/novel/list
